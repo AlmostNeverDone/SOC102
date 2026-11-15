@@ -237,15 +237,15 @@ Beyond identifying malicious activity, the project focuses on evidence-based cor
 <b>Case A1-Phishing Email Scope Review<br/> (釣魚郵件影響範圍檢視)</b><br/>
 <img src="https://i.imgur.com/izLkU0s.jpeg" height="80%" width="80%" alt="Phishing Email Scope Review"/>
 <br />
-* Searching the email logs for hatmakereurope.xyz returned a single inbound email delivered to michael.ascot@tryhatme.com at 11:16:33.<br/>在郵件日誌中搜尋 hatmakereurope.xyz，只找到一封於 11:16:33 送達 michael.ascot@tryhatme.com 的入站郵件<br/>
-* No other recipients and no outbound reply were found, indicating a targeted phishing email aimed at the CEO without further interaction by email.<br/>沒有其他收件者，也沒有回覆郵件，顯示這是鎖定 CEO 的目標式釣魚郵件，且使用者沒有透過郵件與攻擊者互動<br/>
+* Searching the email logs for hatmakereurope.xyz returned a single inbound email <br/>delivered to michael.ascot@tryhatme.com at 11:16:33.<br/>在郵件日誌中搜尋 hatmakereurope.xyz，<br/>只找到一封於 11:16:33 送達 michael.ascot@tryhatme.com 的入站郵件<br/>
+* No other recipients and no outbound reply were found, indicating a targeted phishing email <br/>aimed at the CEO without further interaction by email.<br/>沒有其他收件者，也沒有回覆郵件，顯示這是鎖定 CEO 的目標式<br/>釣魚郵件，且使用者沒有透過郵件與攻擊者互動<br/>
 <br />
 <br />
 <b>Case A2-Malicious Attachment Opened on Endpoint<br/> (惡意附件於端點上開啟)</b><br/>
 <img src="https://i.imgur.com/E5JuMNs.jpeg" height="80%" width="80%" alt="Malicious Attachment Opened on Endpoint"/>
 <br />
-* At 11:36:40, OUTLOOK.EXE (PID 8668) saved ImportantInvoice-Febrary.zip to the Outlook cache on win-3450, together with a Zone.Identifier stream marking it as externally sourced. This showed that the CEO opened the attachment about 20 minutes after delivery.<br/>11:36:40，OUTLOOK.EXE (PID 8668) 將 ImportantInvoice-Febrary.zip 存入 win-3450 的 Outlook 暫存區，並附帶標記檔案來自外部的 Zone.Identifier 資料流，顯示 CEO 在郵件送達約 20 分鐘後開啟了附件<br/>
-* At 11:36:51, Explorer.EXE (PID 3180) extracted invioce.pdf.lnk into a Temp1_ folder created by the built-in Windows ZIP viewer. The double extension disguised a shortcut file as a PDF.<br/>11:36:51，Explorer.EXE (PID 3180) 將 invioce.pdf.lnk 取出至 Windows 內建 ZIP 檢視器建立的 Temp1_ 資料夾。雙重副檔名讓捷徑檔偽裝成 PDF<br/>
+* At 11:36:40, OUTLOOK.EXE (PID 8668) saved ImportantInvoice-Febrary.zip to the Outlook cache on win-3450, <br/>together with a Zone.Identifier stream marking it as externally sourced. <br/>This showed that the CEO opened the attachment about 20 minutes after delivery.<br/>11:36:40，OUTLOOK.EXE (PID 8668) 將 ImportantInvoice-Febrary.zip 存入 win-3450 的 Outlook 暫存區，<br/>並附帶標記檔案來自外部的 Zone.Identifier 資料流，顯示 CEO 在郵件送達約 20 分鐘後開啟了附件<br/>
+* At 11:36:51, Explorer.EXE (PID 3180) extracted invioce.pdf.lnk into a <br/>Temp1_ folder created by the built-in Windows ZIP viewer. <br/>The double extension disguised a shortcut file as a PDF.<br/>11:36:51，Explorer.EXE (PID 3180) 將 invioce.pdf.lnk 取出至 <br/>Windows 內建 ZIP 檢視器建立的 Temp1_ 資料夾。<br/>雙重副檔名讓捷徑檔偽裝成 PDF<br/>
 <br />
 <br />
 <b>Case A3-Malicious LNK Execution and Reverse Shell<br/> (惡意捷徑執行與反向 Shell 連線)</b><br/>
