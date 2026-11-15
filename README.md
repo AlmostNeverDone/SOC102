@@ -237,102 +237,93 @@ Beyond identifying malicious activity, the project focuses on evidence-based cor
 <b>Case A1-Phishing Email Scope Review<br/> (釣魚郵件影響範圍檢視)</b><br/>
 <img src="https://i.imgur.com/izLkU0s.jpeg" height="80%" width="80%" alt="Phishing Email Scope Review"/>
 <br />
-* Searching the email logs for hatmakereurope.xyz returned a single inbound email <br/>delivered to michael.ascot@tryhatme.com at 11:16:33.<br/>在郵件日誌中搜尋 hatmakereurope.xyz，<br/>只找到一封於 11:16:33 送達 michael.ascot@tryhatme.com 的入站郵件<br/>
-* No other recipients and no outbound reply were found, indicating a targeted phishing email <br/>aimed at the CEO without further interaction by email.<br/>沒有其他收件者，也沒有回覆郵件，顯示這是鎖定 CEO 的目標式<br/>釣魚郵件，且使用者沒有透過郵件與攻擊者互動<br/>
+* Single recipient and no reply, indicating a targeted email to the CEO.<br/>僅有單一收件者且無回覆，顯示為鎖定 CEO 的目標式釣魚郵件<br/>
 <br />
 <br />
 <b>Case A2-Malicious Attachment Opened on Endpoint<br/> (惡意附件於端點上開啟)</b><br/>
 <img src="https://i.imgur.com/E5JuMNs.jpeg" height="80%" width="80%" alt="Malicious Attachment Opened on Endpoint"/>
 <br />
-* At 11:36:40, OUTLOOK.EXE (PID 8668) saved ImportantInvoice-Febrary.zip to the Outlook cache on win-3450, <br/>together with a Zone.Identifier stream marking it as externally sourced. <br/>This showed that the CEO opened the attachment about 20 minutes after delivery.<br/>11:36:40，OUTLOOK.EXE (PID 8668) 將 ImportantInvoice-Febrary.zip 存入 win-3450 的 Outlook 暫存區，<br/>並附帶標記檔案來自外部的 Zone.Identifier 資料流，顯示 CEO 在郵件送達約 20 分鐘後開啟了附件<br/>
-* At 11:36:51, Explorer.EXE (PID 3180) extracted invioce.pdf.lnk into a <br/>Temp1_ folder created by the built-in Windows ZIP viewer. <br/>The double extension disguised a shortcut file as a PDF.<br/>11:36:51，Explorer.EXE (PID 3180) 將 invioce.pdf.lnk 取出至 <br/>Windows 內建 ZIP 檢視器建立的 Temp1_ 資料夾。<br/>雙重副檔名讓捷徑檔偽裝成 PDF<br/>
+* Outlook saved the ZIP about 20 minutes after delivery, confirming the CEO opened the attachment.<br/>Outlook 於郵件送達約 20 分鐘後存下 ZIP，確認 CEO 開啟了附件<br/>
+* invioce.pdf.lnk was extracted via the Windows ZIP viewer, using a double extension to pose as a PDF.<br/>invioce.pdf.lnk 經由 Windows ZIP 檢視器取出，以雙重副檔名偽裝成 PDF<br/>
 <br />
 <br />
 <b>Case A3-Malicious LNK Execution and Reverse Shell<br/> (惡意捷徑執行與反向 Shell 連線)</b><br/>
 <img src="https://i.imgur.com/aE1XZzT.jpeg" height="80%" width="80%" alt="Malicious LNK Execution and Reverse Shell"/>
 <br />
-* At 11:36:52, one second after the LNK file was extracted, the same Explorer process (PID 3180) launched powershell.exe (PID 3880).<br/>11:36:52，也就是 LNK 檔案被取出後 1 秒，同一個 Explorer 程序 (PID 3180) 啟動了 powershell.exe (PID 3880)<br/>
-* The command downloaded powercat.ps1 from GitHub into memory with IEX and <br/>connected to 2.tcp.ngrok.io:19282 with "-e powershell", <br/>creating a reverse shell through an ngrok tunnel without writing the script to disk.<br/>該指令以 IEX 將 powercat.ps1 從 GitHub 下載至記憶體中執行，<br/>並以「-e powershell」連線至 2.tcp.ngrok.io:19282，在不將腳本<br/>寫入磁碟的情況下，透過 ngrok 通道建立反向 Shell<br/>
+* The same Explorer process (PID 3180) launched PowerShell one second after extraction, linking the LNK to execution.<br/>同一個 Explorer 程序 (PID 3180) 在取出檔案 1 秒後啟動 PowerShell，連結 LNK 與執行行為<br/>
+* powercat was loaded in memory to open a reverse shell through an ngrok tunnel.<br/>powercat 在記憶體中載入，透過 ngrok 通道建立反向 Shell<br/>
 <br />
 <br />
 <b>Case A4-Reverse Shell Connection Confirmed in PowerShell Logs<br/> (PowerShell 日誌確認反向 Shell 連線成功)</b><br/>
 <img src="https://i.imgur.com/19vqyzS.jpeg" height="80%" width="80%" alt="Reverse Shell Connection Confirmed in PowerShell Logs"/>
 <br />
-* PowerShell module logging recorded powercat status messages at 11:36:55, including "Connection to 2.tcp.ngrok.io:19282 [tcp] succeeded!" and "Starting Process powershell...".<br/>PowerShell 模組日誌在 11:36:55 記錄到 powercat 的狀態訊息，包括「Connection to 2.tcp.ngrok.io:19282 [tcp] succeeded!」與「Starting Process powershell...」<br/>
-* Although no firewall or DNS logs were available, the endpoint logs confirmed that the reverse shell was established and a PowerShell session was handed to the attacker. All eight messages share the same timestamp, so the displayed order does not reflect the actual execution order.<br/>雖然沒有防火牆或 DNS 日誌，端點日誌仍確認反向 Shell 已建立，且 PowerShell 工作階段已交給攻擊者。八筆訊息的時間戳記完全相同，因此顯示順序並不代表實際執行順序<br/>
+* With no network logs available, powercat's own output confirmed the connection succeeded.<br/>在缺少網路日誌的情況下，由 powercat 本身的輸出確認連線成功<br/>
+* Identical timestamps mean the displayed order is not the execution order.<br/>時間戳記相同，顯示順序不代表實際執行順序<br/>
 <br />
 <br />
 <b>Case A5-Static Analysis of Malicious LNK Attachment<br/> (惡意捷徑附件之靜態分析)</b><br/>
 <img src="https://i.imgur.com/oY9z3dw.jpeg" height="80%" width="80%" alt="Static Analysis of Malicious LNK Attachment"/>
 <br />
-* In the Analyst VM, the SHA256 hash of the ZIP attachment was calculated, and the archive was extracted without execution. It contained a single file, invioce.pdf.lnk, with a size of 243 bytes.<br/>在 Analyst VM 中計算 ZIP 附件的 SHA256 雜湊值，並在不執行的情況下解壓縮。壓縮檔內只有一個檔案 invioce.pdf.lnk，大小為 243 bytes<br/>
-* WScript.Shell returned an empty TargetPath and Arguments, and Format-Hex showed that the file began with "C:\" (43 3A 5C) instead of the LNK signature (4C 00 00 00).<br/>WScript.Shell 回傳的 TargetPath 與 Arguments 皆為空白，Format-Hex 則顯示檔案開頭為「C:\」(43 3A 5C)，而非 LNK 檔案標頭 (4C 00 00 00)<br/>
-* Reading the file as text revealed a command identical to the PowerShell command line recorded by Sysmon in Case A3. This confirmed from the file itself that the attachment was the source of the reverse shell, while also showing that the simulated artifact was stored as plain text rather than as a valid binary LNK file.<br/>以文字方式讀取檔案後，發現其內容與 Case A3 中 Sysmon 記錄的 PowerShell 命令列完全相同。這從檔案本身確認了附件就是反向 Shell 的來源，同時也顯示該模擬檔案是以純文字儲存，而非有效的 LNK 二進位檔案<br/>
+* The file lacked the LNK signature (4C 00 00 00) and was plain text in this simulation.<br/>檔案缺少 LNK 標頭 (4C 00 00 00)，在此模擬環境中為純文字檔<br/>
+* Its content matched the command in Case A3, confirming the attachment as the reverse shell source.<br/>內容與 Case A3 的指令一致，確認附件即為反向 Shell 的來源<br/>
 <br />
 <br />
 <b>Case B1-Host Discovery via Attacker PowerShell Session<br/> (攻擊者 PowerShell 工作階段之主機偵察)</b><br/>
 <img src="https://i.imgur.com/MWblfS8.jpeg" height="80%" width="80%" alt="Host Discovery via Attacker PowerShell Session"/>
 <br />
-* PowerShell PID 9060 first appeared at 11:36:55 by creating a temporary __PSScriptPolicyTest file, a marker of a new PowerShell session, three seconds after the reverse shell was established.<br/>PowerShell PID 9060 於 11:36:55 首次出現，建立了 __PSScriptPolicyTest 暫存檔。這是新 PowerShell 工作階段啟動的標記，時間點在反向 Shell 建立後 3 秒<br/>
-* Between 11:37:08 and 11:37:37, PID 9060 ran systeminfo, whoami, whoami /priv, net user, and net localgroup, a typical hands-on-keyboard discovery sequence, and then created PowerView.ps1 in the Downloads folder at 11:38:03.<br/>11:37:08 至 11:37:37 之間，PID 9060 依序執行 systeminfo、whoami、whoami /priv、net user 與 net localgroup，這是典型的人工操作偵察流程，接著於 11:38:03 在 Downloads 資料夾建立 PowerView.ps1<br/>
-* No process creation event was recorded for PID 9060, so its parent process could not be confirmed directly. Its link to the reverse shell is inferred from timing and the PowerShell logs in Case A4.<br/>日誌中沒有 PID 9060 的程序建立事件，因此無法直接確認其父程序。它與反向 Shell 的關聯是依據時間關係與 Case A4 的 PowerShell 日誌推論而來<br/>
+* PID 9060 appeared 3 seconds after the reverse shell and ran a hands-on-keyboard discovery sequence before dropping PowerView.<br/>PID 9060 於反向 Shell 建立 3 秒後出現，執行人工偵察指令後放置 PowerView<br/>
+* No process creation event exists for PID 9060, so its origin is inferred from timing.<br/>日誌中沒有 PID 9060 的程序建立事件，其來源係依時間關係推論<br/>
 <br />
 <br />
 <b>Case B2-PowerView Loaded for Domain Discovery<br/> (載入 PowerView 進行網域偵察)</b><br/>
 <img src="https://i.imgur.com/U4ppyCN.jpeg" height="80%" width="80%" alt="PowerView Loaded for Domain Discovery"/>
 <br />
-* At 11:38:16, Script Block Logging recorded "powershell -ExecutionPolicy Bypass". PID 3728, which later performed the collection and exfiltration activity, first appeared one second later.<br/>11:38:16，腳本區塊日誌記錄到「powershell -ExecutionPolicy Bypass」。之後執行資料收集與外洩的 PID 3728，在 1 秒後首次出現<br/>
-* At 11:38:24, three script blocks were loaded from C:\Users\michael.ascot\downloads\PowerView.ps1, and at 11:38:52, PowerView code that queries Active Directory computer objects through LDAP was executed.<br/>11:38:24，有三個腳本區塊從 C:\Users\michael.ascot\downloads\PowerView.ps1 載入；11:38:52，執行了透過 LDAP 查詢 Active Directory 電腦物件的 PowerView 程式碼<br/>
-* The domain enumeration occurred about one minute before the attacker mapped the financial records share on FILESRV-01.<br/>網域列舉發生在攻擊者掛載 FILESRV-01 財務紀錄共用資料夾的約 1 分鐘前<br/>
+* The ExecutionPolicy Bypass session matches the first appearance of PID 3728 one second later.<br/>繞過執行原則的工作階段，與 1 秒後首次出現的 PID 3728 相符<br/>
+* PowerView's LDAP computer enumeration ran about one minute before FILESRV-01 was accessed.<br/>PowerView 的 LDAP 電腦列舉在存取 FILESRV-01 約 1 分鐘前執行<br/>
 <br />
 <br />
 <b>Case C1-Initial File Share Activity Query<br/> (檔案共用活動初步查詢)</b><br/>
 <img src="https://i.imgur.com/vmulFEb.jpeg" height="80%" width="80%" alt="Initial File Share Activity Query"/>
 <br />
-* Filtering child processes of PID 3728 returned only two events: mapping \\FILESRV-01\SSF-FinancialRecords as Z: at 11:39:58 and disconnecting the drive at 11:40:56.<br/>篩選 PID 3728 的子程序後，只找到兩筆事件：11:39:58 將 \\FILESRV-01\SSF-FinancialRecords 掛載為 Z:，以及 11:40:56 卸載該磁碟<br/>
-* The Robocopy process reported in Alert 1023 was missing from the results, indicating that the query did not capture all related events.<br/>Alert 1023 所記錄的 Robocopy 程序並未出現在查詢結果中，顯示此查詢未能涵蓋所有相關事件<br/>
+* Robocopy from Alert 1023 was missing, showing the query was incomplete.<br/>Alert 1023 的 Robocopy 未出現，顯示查詢結果不完整<br/>
 <br />
 <br />
 <b>Case C2-Corrected Query for Inconsistent PID Format<br/> (PID 格式不一致之修正查詢)</b><br/>
 <img src="https://i.imgur.com/3iUpwbb.jpeg" height="80%" width="80%" alt="Corrected Query for Inconsistent PID Format"/>
 <br />
-* The parent PID of Robocopy was stored as "3,728" instead of "3728". After adding both formats to the query, all three events were returned.<br/>Robocopy 的父程序 PID 被儲存為「3,728」，而非「3728」。在查詢中同時加入兩種格式後，三筆事件全部出現<br/>
-* At 11:40:45, Robocopy ran from working directory Z:\ and copied the share contents recursively to C:\Users\michael.ascot\downloads\exfiltration. The entire sequence from mapping to disconnection took 58 seconds.<br/>11:40:45，Robocopy 在工作目錄 Z:\ 執行，將共用資料夾內容遞迴複製至 C:\Users\michael.ascot\downloads\exfiltration。從掛載到卸載的整個過程只花了 58 秒<br/>
+* The parent PID was stored as "3,728" for Robocopy; querying both formats recovered the missing event.<br/>Robocopy 的父程序 PID 被存為「3,728」，同時查詢兩種格式後找回遺漏的事件<br/>
+* Map, copy from Z:\, and disconnect completed within 58 seconds.<br/>掛載、從 Z:\ 複製、卸載在 58 秒內完成<br/>
 <br />
 <br />
 <b>Case C3-Staged Sensitive Files and Archive Creation<br/> (暫存之敏感檔案與壓縮檔建立)</b><br/>
 <img src="https://i.imgur.com/AXjk06V.jpeg" height="80%" width="80%" alt="Staged Sensitive Files and Archive Creation"/>
 <br />
-* PID 3728 created the exfiltration folder at 11:39:51, seven seconds before the share was mapped, indicating planned collection.<br/>PID 3728 於 11:39:51 建立 exfiltration 資料夾，比掛載共用資料夾早了 7 秒，顯示這是有計畫的資料收集<br/>
-* Robocopy wrote InvestorPresentation2023.pptx and ClientPortfolioSummary.xlsx to the folder at 11:40:45, and PID 3728 compressed them into exfilt8me.zip at 11:41:14.<br/>Robocopy 於 11:40:45 將 InvestorPresentation2023.pptx 與 ClientPortfolioSummary.xlsx 寫入該資料夾，PID 3728 則於 11:41:14 將它們壓縮為 exfilt8me.zip<br/>
+* The staging folder was created 7 seconds before the share was mapped, indicating planned collection.<br/>暫存資料夾比掛載共用資料夾早 7 秒建立，顯示為有計畫的資料收集<br/>
 <br />
 <br />
 <b>Case D1-DNS Exfiltration via nslookup<br/> (透過 nslookup 進行 DNS 資料外洩)</b><br/>
 <img src="https://i.imgur.com/txHORSd.jpeg" height="80%" width="80%" alt="DNS Exfiltration via nslookup"/>
 <br />
-* Sysmon recorded 10 nslookup.exe processes started by PID 3728, eight at 11:41:43 and two at 11:41:59, each querying a 30-character Base64 string as a subdomain of haz4rdw4re.io.<br/>Sysmon 記錄到 10 個由 PID 3728 啟動的 nslookup.exe 程序，8 個在 11:41:43、2 個在 11:41:59，每次都以 30 個字元的 Base64 字串作為 haz4rdw4re.io 的子網域進行查詢<br/>
-* The chunk beginning with "UEsDB" decodes to the ZIP file signature "PK\x03\x04", linking the queries to the archive created in Case C3. Because several events share the same timestamp, the original order of the chunks could not be determined from Sysmon alone.<br/>以「UEsDB」開頭的片段解碼後為 ZIP 檔案標頭「PK\x03\x04」，將這些查詢與 Case C3 建立的壓縮檔連結起來。由於多筆事件的時間戳記相同，僅憑 Sysmon 無法判斷片段的原始順序<br/>
+* The "UEsDB" chunk decodes to the ZIP signature "PK\x03\x04", linking the queries to exfilt8me.zip.<br/>「UEsDB」片段解碼為 ZIP 標頭「PK\x03\x04」，將查詢與 exfilt8me.zip 連結<br/>
+* Shared timestamps prevented recovering the chunk order from Sysmon alone.<br/>時間戳記相同，僅憑 Sysmon 無法還原片段順序<br/>
 <br />
 <br />
 <b>Case D2-Full Exfiltration Sequence in PowerShell Logs<br/> (PowerShell 日誌中的完整外洩序列)</b><br/>
 <img src="https://i.imgur.com/VeUzeG9.jpeg" height="80%" width="80%" alt="Full Exfiltration Sequence in PowerShell Logs"/>
 <br />
-* PowerShell module logging recorded 18 nslookup executions in two ForEach-Object loops: 16 chunks at 11:41:43-11:41:44 and 2 chunks at 11:41:59. Eight of the 18 lookups were not recorded by Sysmon and did not trigger alerts.<br/>PowerShell 模組日誌記錄到兩個 ForEach-Object 迴圈共執行 18 次 nslookup：11:41:43-11:41:44 送出 16 個片段，11:41:59 送出 2 個片段。這 18 次查詢中有 8 次沒有被 Sysmon 記錄，也沒有觸發警報<br/>
-* The loop recorded the original order of the chunks. Reassembling the 16 chunks of the first batch in that order produced a valid ZIP archive containing InvestorPresentation2023.pptx and ClientPortfolioSummary.xlsx, the same files staged in Case C3.<br/>迴圈中保留了片段的原始順序。依此順序重組第一批的 16 個片段後，得到一個有效的 ZIP 壓縮檔，內含 InvestorPresentation2023.pptx 與 ClientPortfolioSummary.xlsx，與 Case C3 暫存的檔案相同<br/>
-* The second batch decoded to a separate text string that was not part of the archive and has been redacted from the screenshot.<br/>第二批片段解碼後是一段獨立的文字，不屬於該壓縮檔，已在截圖中遮蔽<br/>
+* 18 lookups were logged, but Sysmon captured only 10, leaving 8 undetected.<br/>共記錄 18 次查詢，但 Sysmon 僅捕捉到 10 次，有 8 次未被偵測<br/>
+* Reassembling the first 16 chunks in loop order produced a valid ZIP containing the two files from Case C3.<br/>依迴圈順序重組前 16 個片段，得到內含 Case C3 兩個檔案的有效 ZIP<br/>
 <br />
 <br />
 <b>Case E1-URL and Domain Reputation Check<br/> (URL 與網域信譽查詢)</b><br/>
 <img src="https://i.imgur.com/fHe7cos.jpeg" height="80%" width="80%" alt="URL and Domain Reputation Check"/>
 <br />
-* TryDetectThis returned CLEAN for hatmakereurope.xyz, 2.tcp.ngrok.io, haz4rdw4re.io, and the powercat URL on raw.githubusercontent.com.<br/>TryDetectThis 將 hatmakereurope.xyz、2.tcp.ngrok.io、haz4rdw4re.io 與 raw.githubusercontent.com 上的 powercat URL 均判定為 CLEAN<br/>
-* GitHub and ngrok are legitimate services, and the attacker-controlled domains had no reputation history. Each indicator was nevertheless tied to confirmed malicious behaviour in the endpoint logs, so the classification was based on observed behaviour rather than reputation.<br/>GitHub 與 ngrok 都是合法服務，攻擊者控制的網域也沒有任何信譽紀錄。但每個指標在端點日誌中都對應到已確認的惡意行為，因此分類是依據實際觀察到的行為，而非信譽查詢結果<br/>
+* All indicators were CLEAN despite confirmed malicious behaviour; legitimate services (GitHub, ngrok) were abused.<br/>儘管已確認惡意行為，所有指標仍為 CLEAN；攻擊者濫用了 GitHub、ngrok 等合法服務<br/>
 <br />
 <br />
 <b>Case E2-File Reputation Check of LNK Attachment<br/> (捷徑附件之檔案信譽查詢)</b><br/>
 <img src="https://i.imgur.com/8ZVAmgt.jpeg" height="80%" width="80%" alt="File Reputation Check of LNK Attachment"/>
 <br />
-* TryDetectThis classified invioce.pdf.lnk as MALICIOUS and provided its MD5, SHA-1, and SHA-256 hashes for use as file indicators.<br/>TryDetectThis 將 invioce.pdf.lnk 判定為 MALICIOUS，並提供其 MD5、SHA-1 與 SHA-256 雜湊值，可作為檔案指標使用<br/>
-* The file type was reported as application/octet-stream rather than a shortcut, which is consistent with the static analysis findings in Case A5.<br/>檔案類型被判定為 application/octet-stream 而非捷徑檔，與 Case A5 的靜態分析結果一致<br/>
+* Classified as MALICIOUS; the octet-stream file type is consistent with Case A5.<br/>判定為 MALICIOUS，octet-stream 檔案類型與 Case A5 結果一致<br/>
 <br />
 <br />
