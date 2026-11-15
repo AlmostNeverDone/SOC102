@@ -165,3 +165,66 @@ Beyond identifying malicious activity, the project focuses on evidence-based cor
 
 </div>
 <br/>
+
+---------
+
+<h2>Initial Triage & Prioritization｜初步警報分類與優先排序</h2>
+
+<p align="center">
+<b>Initial SOC Alert Queue<br/> (初始 SOC 警報佇列)</b><br/>
+<img src="https://i.imgur.com/6LQPemK.jpeg" height="80%" width="80%" alt="Initial SOC Alert Queue 1035-1018"/>
+<img src="https://i.imgur.com/noSlYpe.jpeg" height="80%" width="80%" alt="Initial SOC Alert Queue 1017-1000"/>
+<br />
+* The queue contained 36 alerts generated between 11:07 and 11:45: 23 Suspicious Parent Child Relationship alerts, <br/>9 Suspicious email from external domain alerts, 3 execution alerts, and 1 Suspicious Attachment found in email alert.<br/>警報佇列共有 36 筆警報，產生於 11:07 至 11:45 之間，包括 23 筆 Suspicious Parent Child Relationship、<br/>9 筆 Suspicious email from external domain、3 筆執行類警報，以及 1 筆 Suspicious Attachment found in email<br/>
+<br />
+* Most alerts were Low severity and came from broad detection rules, so the queue had to be <br/>reviewed for alerts that were related to each other rather than processed one by one.<br/>大多數警報嚴重度為 Low，且來自涵蓋範圍較廣的偵測規則，<br/>因此需要從佇列中找出彼此相關的警報，而非逐一處理<br/>
+<br />
+* The only High and Medium severity alerts (1022, 1024, and 1025-1034) all originated <br/>from the same host, win-3450, assigned to the CEO Michael Ascot.<br/>佇列中僅有的 High 與 Medium 嚴重度警報 (1022、1024 與 1025-1034) <br/>全部來自同一台主機 win-3450，也就是 CEO Michael Ascot 的工作站<br/>
+<br />
+<br />
+* Severity alone was not sufficient, because the phishing attachment alert (1005) and the PowerShell script alert (1020) were both Low severity. <br/>Their specific rule names, compared with the broad Parent Child rule, justified including them in the initial review.<br/>僅依嚴重度篩選並不足夠，因為釣魚附件警報 (1005) 與 PowerShell 腳本警報 (1020) 都是 Low 嚴重度。<br/>相較於涵蓋範圍較廣的 Parent Child 規則，這兩筆警報的規則名稱更為具體，因此也納入初步檢視<br/>
+<br />
+<br />
+<b>Case A: Alert 1005 - Invoice-Themed Phishing Attachment<br/> (Case A：發票主題釣魚附件)</b><br/>
+<img src="https://i.imgur.com/HDds4pS.jpeg" height="80%" width="80%" alt="Alert 1005"/>
+<br />
+* Alert 1005 showed an inbound email from the external domain hatmakereurope.xyz to the CEO, using urgency and legal threats to pressure the recipient into opening the attachment ImportantInvoice-Febrary.zip.<br/>Alert 1005 顯示一封來自外部網域 hatmakereurope.xyz、寄給 CEO 的入站郵件，以急迫性與法律威脅施壓收件者開啟附件 ImportantInvoice-Febrary.zip<br/>
+<br />
+* This was the only external email in the queue with an attachment, making it the most likely initial access point for the activity later observed on win-3450.<br/>這是佇列中唯一夾帶附件的外部郵件，因此最可能是後續 win-3450 上可疑活動的初始入侵點<br/>
+<br />
+<br />
+<b>Case B: Alert 1020 - PowerShell Script in Downloads Folder<br/> (Case B：Downloads 資料夾中的 PowerShell 腳本)</b><br/>
+<img src="https://i.imgur.com/5YcjOWS.jpeg" height="80%" width="80%" alt="Alert 1020"/>
+<br />
+* Alert 1020 showed powershell.exe (PID 9060) creating PowerView.ps1, a known Active Directory reconnaissance tool, in the CEO's Downloads folder on win-3450.<br/>Alert 1020 顯示 powershell.exe (PID 9060) 在 win-3450 的 CEO Downloads 資料夾中建立 PowerView.ps1，這是一個已知的 Active Directory 偵察工具<br/>
+<br />
+* The host and user matched the recipient of the phishing email in Case A, indicating a possible link between the two alerts.<br/>主機與使用者都與 Case A 釣魚郵件的收件者相符，顯示兩筆警報之間可能存在關聯<br/>
+<br />
+<br />
+<b>Case C: Alerts 1022, 1023, 1024 - File Share Access and Data Staging<br/> (Case C：檔案共用存取與資料暫存)</b><br/>
+<img src="https://i.imgur.com/0xiDZZ3.jpeg" height="80%" width="80%" alt="Alerts 1022, 1023 and 1024"/>
+<br />
+* Alerts 1022, 1023, and 1024 were grouped because all three processes were started by the same PowerShell process (PID 3728) on win-3450 within about one minute.<br/>Alert 1022、1023 與 1024 因三個程序都是在約 1 分鐘內由 win-3450 上的同一個 PowerShell 程序 (PID 3728) 啟動而合併處理<br/>
+<br />
+* The sequence mapped \\FILESRV-01\SSF-FinancialRecords as drive Z:, copied its contents with Robocopy to a local folder named "exfiltration", and then disconnected the drive. Although the rule descriptions state that mapping a drive is normally not a concern, this context indicated possible data collection.<br/>這三筆警報依序將 \\FILESRV-01\SSF-FinancialRecords 掛載為 Z: 磁碟，以 Robocopy 將內容複製到名為「exfiltration」的本機資料夾，接著卸載磁碟。雖然規則描述指出掛載磁碟通常不需擔心，但此情境顯示可能存在資料收集行為<br/>
+<br />
+<br />
+<b>Case D: Alerts 1025-1034 - DNS Exfiltration<br/> (Case D：DNS 資料外洩)</b><br/>
+<img src="https://i.imgur.com/c5SbxAV.jpeg" height="80%" width="80%" alt="Alerts 1025-1034"/>
+<br />
+* Alerts 1025 to 1034 were the only High-severity alerts in the queue and were all triggered within the same minute. Each showed nslookup.exe started by the same PowerShell process (PID 3728) on win-3450.<br/>Alert 1025 至 1034 是佇列中唯一的 High 嚴重度警報，且全部在同一分鐘內觸發。每一筆都顯示 win-3450 上同一個 PowerShell 程序 (PID 3728) 啟動了 nslookup.exe<br/>
+<br />
+* Each query used a Base64-like string as a subdomain of haz4rdw4re.io, a pattern consistent with DNS-based data exfiltration. Alert 1025 is shown as a representative example.<br/>每次查詢都以類似 Base64 的字串作為 haz4rdw4re.io 的子網域，符合透過 DNS 外洩資料的特徵。此處以 Alert 1025 作為代表範例<br/>
+<br />
+<br />
+<b>Noise Example: Alert 1019 - Benign taskhostw Process<br/> (雜訊範例：良性 taskhostw 程序)</b><br/>
+<img src="https://i.imgur.com/M0Hb8k2.jpeg" height="80%" width="80%" alt="Alert 1019"/>
+<br />
+* Alert 1019 showed svchost.exe starting taskhostw.exe KEYROAMING from C:\Windows\system32\ on win-3460, which is consistent with a routine Windows scheduled task for credential key roaming.<br/>Alert 1019 顯示 win-3460 上的 svchost.exe 從 C:\Windows\system32\ 啟動 taskhostw.exe KEYROAMING，符合 Windows 用於憑證金鑰漫遊的例行排程工作<br/>
+<br />
+* The common parent-child pair, system working directory, standard command line, and lack of any link to win-3450 indicated background activity. Alert 1019 is shown as a representative example of the recurring Low-severity process alerts.<br/>常見的父子程序組合、系統工作目錄、標準命令列，以及與 win-3450 沒有任何關聯，都顯示這是背景活動。此處以 Alert 1019 作為反覆出現的 Low 嚴重度程序警報代表範例<br/>
+<br />
+<br />
+* All four cases involved the same host and user and followed a logical attack sequence, so they were investigated as a single potential attack chain in chronological order, starting from Case A.<br/>四個案例都涉及同一台主機與使用者，並呈現合理的攻擊順序，因此以單一潛在攻擊鏈的方式，從 Case A 開始依時間順序進行調查<br/>
+<br />
+<br />
