@@ -196,7 +196,7 @@ Beyond identifying malicious activity, the project focuses on evidence-based cor
 <b>Case B: Alert 1020 - PowerShell Script in Downloads Folder<br/> (Case B：Downloads 資料夾中的 PowerShell 腳本)</b><br/>
 <img src="https://i.imgur.com/5YcjOWS.jpeg" height="80%" width="80%" alt="Alert 1020"/>
 <br />
-* Alert 1020 showed powershell.exe (PID 9060) creating PowerView.ps1, <br/>a known Active Directory reconnaissance tool, in the CEO's Downloads folder on win-3450.<br/>Alert 1020 顯示 powershell.exe (PID 9060) 在 win-3450 的 CEO Downloads 資料夾中建立 PowerView.ps1，<br/>這是一個已知的 Active Directory 偵察工具<br/>
+* Alert 1020 showed powershell.exe (PID 9060) creating PowerView.ps1, <br/>a known Active Directory reconnaissance tool, in the CEO's Downloads folder on win-3450.<br/>Alert 1020 顯示 powershell.exe (PID 9060) 在 win-3450 的 CEO Downloads 資料夾中<br/>建立 PowerView.ps1，這是一個已知的 Active Directory 偵察工具<br/>
 <br />
 * The host and user matched the recipient of the phishing email in Case A, <br/>indicating a possible link between the two alerts.<br/>主機與使用者都與 Case A 釣魚郵件的收件者相符，<br/>顯示兩筆警報之間可能存在關聯<br/>
 <br />
