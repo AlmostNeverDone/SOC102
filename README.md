@@ -252,7 +252,7 @@ Beyond identifying malicious activity, the project focuses on evidence-based cor
 <img src="https://i.imgur.com/aE1XZzT.jpeg" height="80%" width="80%" alt="Malicious LNK Execution and Reverse Shell"/>
 <br />
 * At 11:36:52, one second after the LNK file was extracted, the same Explorer process (PID 3180) launched powershell.exe (PID 3880).<br/>11:36:52，也就是 LNK 檔案被取出後 1 秒，同一個 Explorer 程序 (PID 3180) 啟動了 powershell.exe (PID 3880)<br/>
-* The command downloaded powercat.ps1 from GitHub into memory with IEX and connected to 2.tcp.ngrok.io:19282 with "-e powershell", creating a reverse shell through an ngrok tunnel without writing the script to disk.<br/>該指令以 IEX 將 powercat.ps1 從 GitHub 下載至記憶體中執行，並以「-e powershell」連線至 2.tcp.ngrok.io:19282，在不將腳本寫入磁碟的情況下，透過 ngrok 通道建立反向 Shell<br/>
+* The command downloaded powercat.ps1 from GitHub into memory with IEX and <br/>connected to 2.tcp.ngrok.io:19282 with "-e powershell", <br/>creating a reverse shell through an ngrok tunnel without writing the script to disk.<br/>該指令以 IEX 將 powercat.ps1 從 GitHub 下載至記憶體中執行，<br/>並以「-e powershell」連線至 2.tcp.ngrok.io:19282，在不將腳本<br/>寫入磁碟的情況下，透過 ngrok 通道建立反向 Shell<br/>
 <br />
 <br />
 <b>Case A4-Reverse Shell Connection Confirmed in PowerShell Logs<br/> (PowerShell 日誌確認反向 Shell 連線成功)</b><br/>
