@@ -14,7 +14,7 @@ This project demonstrates a structured Security Operations Center (SOC) investig
 
 The scenario generated 36 alerts, most of which were low-severity process and external email detections caused by routine activity. Initial triage was performed to separate background noise from related suspicious activity, and the alerts linked to the CEO's workstation were grouped into four investigation cases according to attack stage: initial access, execution and discovery, collection, and exfiltration.
 
-本次情境共產生 36 筆警報，其中大多數是由日常活動觸發的低嚴重度程序與外部郵件警報。首先透過 Initial Triage 區分背景雜訊與彼此關聯的可疑活動，並將與 CEO 工作站相關的警報依攻擊階段整理為四個調查案例：初始存取、執行與偵察、資料收集，以及資料外洩。
+本次情境共產生 36 筆警報，其中大多數是由日常活動觸發的低嚴重度程序與外部郵件警報。調查首先區分背景雜訊與彼此關聯的可疑活動，並將與 CEO 工作站相關的警報依攻擊階段整理為四個調查案例：初始存取、執行與偵察、資料收集，以及資料外洩。
 
 The investigation correlated email, Sysmon, and PowerShell logs in Splunk by host, process ID, and timestamp, and supplemented the SIEM evidence with static analysis of the phishing attachment and threat intelligence lookups in the Analyst VM. This made it possible to reconstruct the full attack chain, from a spear-phishing email with a disguised LNK file, through a reverse shell over an ngrok tunnel, host and domain reconnaissance with PowerView, and the collection of files from a financial records share, to the exfiltration of the archived data over DNS.
 
