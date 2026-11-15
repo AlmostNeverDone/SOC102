@@ -188,17 +188,17 @@ Beyond identifying malicious activity, the project focuses on evidence-based cor
 <b>Case A: Alert 1005 - Invoice-Themed Phishing Attachment<br/> (Case A：發票主題釣魚附件)</b><br/>
 <img src="https://i.imgur.com/HDds4pS.jpeg" height="80%" width="80%" alt="Alert 1005"/>
 <br />
-* Alert 1005 showed an inbound email from the external domain hatmakereurope.xyz to the CEO, using urgency and legal threats to pressure the recipient into opening the attachment ImportantInvoice-Febrary.zip.<br/>Alert 1005 顯示一封來自外部網域 hatmakereurope.xyz、寄給 CEO 的入站郵件，以急迫性與法律威脅施壓收件者開啟附件 ImportantInvoice-Febrary.zip<br/>
+* Alert 1005 showed an inbound email from the external domain hatmakereurope.xyz to the CEO, <br/>using urgency and legal threats to pressure the recipient into opening the attachment ImportantInvoice-Febrary.zip.<br/>Alert 1005 顯示一封來自外部網域 hatmakereurope.xyz、寄給 CEO 的入站郵件，<br/>以急迫性與法律威脅施壓收件者開啟附件 ImportantInvoice-Febrary.zip<br/>
 <br />
-* This was the only external email in the queue with an attachment, making it the most likely initial access point for the activity later observed on win-3450.<br/>這是佇列中唯一夾帶附件的外部郵件，因此最可能是後續 win-3450 上可疑活動的初始入侵點<br/>
+* This was the only external email in the queue with an attachment, <br/>making it the most likely initial access point for the activity later observed on win-3450.<br/>這是佇列中唯一夾帶附件的外部郵件，<br/>因此最可能是後續 win-3450 上可疑活動的初始入侵點<br/>
 <br />
 <br />
 <b>Case B: Alert 1020 - PowerShell Script in Downloads Folder<br/> (Case B：Downloads 資料夾中的 PowerShell 腳本)</b><br/>
 <img src="https://i.imgur.com/5YcjOWS.jpeg" height="80%" width="80%" alt="Alert 1020"/>
 <br />
-* Alert 1020 showed powershell.exe (PID 9060) creating PowerView.ps1, a known Active Directory reconnaissance tool, in the CEO's Downloads folder on win-3450.<br/>Alert 1020 顯示 powershell.exe (PID 9060) 在 win-3450 的 CEO Downloads 資料夾中建立 PowerView.ps1，這是一個已知的 Active Directory 偵察工具<br/>
+* Alert 1020 showed powershell.exe (PID 9060) creating PowerView.ps1, <br/>a known Active Directory reconnaissance tool, in the CEO's Downloads folder on win-3450.<br/>Alert 1020 顯示 powershell.exe (PID 9060) 在 win-3450 的 CEO Downloads 資料夾中建立 PowerView.ps1，<br/>這是一個已知的 Active Directory 偵察工具<br/>
 <br />
-* The host and user matched the recipient of the phishing email in Case A, indicating a possible link between the two alerts.<br/>主機與使用者都與 Case A 釣魚郵件的收件者相符，顯示兩筆警報之間可能存在關聯<br/>
+* The host and user matched the recipient of the phishing email in Case A, <br/>indicating a possible link between the two alerts.<br/>主機與使用者都與 Case A 釣魚郵件的收件者相符，<br/>顯示兩筆警報之間可能存在關聯<br/>
 <br />
 <br />
 <b>Case C: Alerts 1022, 1023, 1024 - File Share Access and Data Staging<br/> (Case C：檔案共用存取與資料暫存)</b><br/>
