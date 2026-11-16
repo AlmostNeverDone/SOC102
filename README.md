@@ -302,10 +302,11 @@ Beyond identifying malicious activity, the project focuses on evidence-based cor
 <br />
 <br />
 <b>Case D1-DNS Exfiltration via nslookup<br/> (透過 nslookup 進行 DNS 資料外洩)</b><br/>
-<img src="https://i.imgur.com/txHORSd.jpeg" height="80%" width="80%" alt="DNS Exfiltration via nslookup"/>
+<img src="https://i.imgur.com/dO8EMR5.jpeg" height="80%" width="80%" alt="DNS Exfiltration via nslookup"/>
 <br />
 * The "UEsDB" chunk decodes to the ZIP signature "PK\x03\x04", linking the queries to exfilt8me.zip.<br/>「UEsDB」片段解碼為 ZIP 標頭「PK\x03\x04」，將查詢與 exfilt8me.zip 連結<br/>
 * Shared timestamps prevented recovering the chunk order from Sysmon alone.<br/>時間戳記相同，僅憑 Sysmon 無法還原片段順序<br/>
+* Redacted chunks contain the simulator flag.<br/>遮蔽的片段為模擬器 flag<br/>
 <br />
 <br />
 <b>Case D2-Full Exfiltration Sequence in PowerShell Logs<br/> (PowerShell 日誌中的完整外洩序列)</b><br/>
