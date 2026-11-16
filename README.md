@@ -328,3 +328,138 @@ Beyond identifying malicious activity, the project focuses on evidence-based cor
 * Classified as MALICIOUS; the octet-stream file type is consistent with Case A5.<br/>判定為 MALICIOUS，octet-stream 檔案類型與 Case A5 結果一致<br/>
 <br />
 <br />
+
+---------
+
+<h2>Results｜調查結果與專題結論</h2>
+
+This project reconstructed a complete phishing-to-exfiltration attack chain on a single host by correlating email, Sysmon, and PowerShell logs in Splunk, supported by static analysis and threat intelligence in the Analyst VM.
+
+本專題透過 Splunk 關聯電子郵件、Sysmon 與 PowerShell 日誌，並以 Analyst VM 的靜態分析與威脅情報作為佐證，重建了單一主機上從釣魚郵件到資料外洩的完整攻擊鏈。
+
+From 36 alerts, 16 were linked to the CEO's workstation and grouped into four cases by attack stage. All four were classified as True Positive and escalated as a single incident.
+
+在 36 筆警報中，有 16 筆與 CEO 工作站相關，並依攻擊階段整理為四個案例。四個案例均判定為真陽性，並作為單一事件升級處理。
+<br/>
+<br/>
+
+| Case | Related Alerts | Classification | Escalation | Investigation Result |
+| --- | --- | --- | --- | --- |
+| A | 1005 | True Positive | Yes | The phishing email was delivered without quarantine. The CEO opened the LNK attachment, which launched a powercat reverse shell over ngrok.<br/>釣魚郵件未被隔離即送達。CEO 開啟 LNK 附件，啟動了經由 ngrok 連線的 powercat 反向 Shell。 |
+| B | 1020 | True Positive | Yes | The attacker session performed host discovery and loaded PowerView for LDAP domain enumeration.<br/>攻擊者工作階段執行主機偵察，並載入 PowerView 進行 LDAP 網域列舉。 |
+| C | 1022, 1023, 1024 | True Positive | Yes | The FILESRV-01 financial records share was mapped, copied to a local staging folder, disconnected, and archived.<br/>FILESRV-01 的財務紀錄共用資料夾遭掛載、複製至本機暫存資料夾、卸載並壓縮。 |
+| D | 1025-1034 | True Positive | Yes | The archive was exfiltrated through 18 Base64-encoded DNS queries to haz4rdw4re.io, of which only 10 were detected by Sysmon.<br/>壓縮檔經由 18 次 Base64 編碼的 DNS 查詢外洩至 haz4rdw4re.io，其中僅 10 次被 Sysmon 偵測。 |
+
+<br/>
+
+<b>Attack Timeline (攻擊時間軸, 2026-11-12 UTC)</b>
+
+| Time | Stage | Activity |
+| --- | --- | --- |
+| 11:16:33 | Initial Access | Phishing email delivered to the CEO<br/>釣魚郵件送達 CEO |
+| 11:36:40 | Execution | Attachment opened in Outlook<br/>於 Outlook 開啟附件 |
+| 11:36:52 | Execution | LNK launched PowerShell and powercat reverse shell<br/>LNK 啟動 PowerShell 與 powercat 反向 Shell |
+| 11:36:55 | Command and Control | Reverse shell connected to 2.tcp.ngrok.io:19282<br/>反向 Shell 連線至 2.tcp.ngrok.io:19282 |
+| 11:37:08 | Discovery | Host discovery commands (PID 9060)<br/>主機偵察指令 (PID 9060) |
+| 11:38:03 | Discovery | PowerView.ps1 dropped<br/>放置 PowerView.ps1 |
+| 11:38:16 | Defense Evasion | ExecutionPolicy Bypass session started (PID 3728)<br/>啟動繞過執行原則的工作階段 (PID 3728) |
+| 11:38:52 | Discovery | LDAP domain computer enumeration<br/>LDAP 網域電腦列舉 |
+| 11:39:58 | Collection | FILESRV-01 financial records share mapped<br/>掛載 FILESRV-01 財務紀錄共用資料夾 |
+| 11:40:45 | Collection | Files copied to the staging folder<br/>檔案複製至暫存資料夾 |
+| 11:41:14 | Collection | exfilt8me.zip created<br/>建立 exfilt8me.zip |
+| 11:41:43 | Exfiltration | DNS exfiltration to haz4rdw4re.io<br/>透過 DNS 外洩至 haz4rdw4re.io |
+| 11:42:08 | - | PowerShell process terminated via Stop-Process<br/>以 Stop-Process 終止 PowerShell 程序 |
+
+<br/>
+
+The attacker moved from opening the attachment to completing the exfiltration in under six minutes. Alert severity was not a reliable guide, as the initial access and execution alerts were both Low severity, while the endpoint evidence showed the full extent of the compromise.
+
+攻擊者從使用者開啟附件到完成外洩，只花了不到 6 分鐘。警報嚴重度並不是可靠的判斷依據，初始存取與執行階段的警報都只是 Low，而端點證據則呈現了完整的入侵範圍。
+
+Overall, this project strengthened practical skills in alert triage, multi-source log correlation, process tree analysis, static file analysis, data decoding, threat intelligence validation, and SOC case reporting.
+
+整體而言，本專題強化了警報分類、多來源日誌關聯、程序樹分析、靜態檔案分析、資料解碼、威脅情報驗證，以及 SOC 案例報告等實務能力。
+
+<br/>
+<br/>
+
+---------
+
+<h2>Security Insight｜安全洞察</h2>
+
+A complete attack chain can unfold within minutes behind a queue of low-severity alerts. Effective investigation depends on correlating multiple data sources, recognising the limits of each source, and turning findings into improvements in detection and response.
+
+完整的攻擊鏈可能在數分鐘內發生，並隱藏在大量低嚴重度警報之中。有效的調查取決於關聯多種資料來源、辨識各來源的限制，並將調查發現轉化為偵測與應變上的改進。
+
+<br/>
+
+Alert Severity Should Reflect Context (警報嚴重度應反映情境)
+
+Alert 1005 was rated Low, the same as the spam alerts around it, even though it was the only external email with an attachment and was sent to the CEO. Raising severity for attachments sent to executives would have moved it to the top of the queue.
+
+Alert 1005 與周圍的垃圾郵件警報同樣被評為 Low，但它是唯一夾帶附件的外部郵件，且收件者是 CEO。若規則能針對寄給高階主管的附件提高嚴重度，這筆警報就會被排到佇列最前面。
+
+<br/>
+
+Legitimate Business Practices Can Aid Phishing (正常業務習慣可能助長釣魚)
+
+In my previous role, I learned that many banks send statements and invoices as compressed attachments, often protected with a password. This habit makes invoice-themed ZIP files like the one in this scenario look routine to recipients. Some email security tools can open protected archives using a password found in the message body, but passwords agreed in advance, such as those based on personal information, are not included in the email, leaving the contents uninspected. Flagging or quarantining password-protected archives from external senders, and encouraging secure portals for sensitive documents, can reduce this risk.
+
+在先前的工作中，我了解到許多銀行會以壓縮附件寄送對帳單與單據，且經常設定密碼。這種習慣讓本情境中這類發票主題的 ZIP 檔案，在收件者眼中顯得稀鬆平常。部分郵件安全工具能使用郵件內文中的密碼開啟加密壓縮檔，但事先約定的密碼 (例如以個人資料設定的密碼) 並不會出現在郵件中，使內容無法被檢查。針對外部寄件者的加密壓縮檔進行標記或隔離，並鼓勵以安全入口網站傳送敏感文件，可以降低此類風險。
+
+<br/>
+
+Post-Delivery Remediation and Users as a Line of Defence (投遞後清除與使用者防線)
+
+The phishing email reached the mailbox without quarantine, and Alert 1005 was raised about 20 minutes before the attachment was opened. Proofpoint CLEAR (Closed-Loop Email Analysis and Response) connects user reporting of suspicious emails through PhishAlarm, automated analysis, and the retraction of matching emails that have already been delivered. Although this was a whaling attack against a single recipient, the same email is often sent to many employees. In that case, a single report from any recipient can remove the email from every mailbox, turning users from a human risk into a line of defence. I had practised deploying CLEAR once in a non-production environment but did not fully understand its value at the time, and this scenario showed it clearly.
+
+釣魚郵件未經隔離即送達信箱，而 Alert 1005 比附件被開啟早了約 20 分鐘。Proofpoint CLEAR (Closed-Loop Email Analysis and Response，閉環式郵件分析與應變) 結合使用者透過 PhishAlarm 回報可疑郵件、自動化分析，以及撤回已送達的相同郵件。雖然本次是針對單一收件者的捕鯨式攻擊，但同一封釣魚郵件經常會寄給多名員工。在這種情況下，只要任一收件者回報，就能將該郵件從所有信箱中移除，讓使用者從人為風險轉變為防線的一部分。我曾在非正式環境中練習部署過一次 CLEAR，但當時並未完全理解其價值，這次情境讓我清楚看見它的意義。
+
+<br/>
+
+A Single Data Source Underestimates the Impact (單一資料來源會低估影響範圍)
+
+Sysmon and the alerts showed 10 DNS queries, while PowerShell logs showed 18. PowerShell logs also confirmed the reverse shell connection, revealed the origin of the attacker's second session, and preserved the chunk order needed to rebuild the exfiltrated archive.
+
+Sysmon 與警報顯示 10 次 DNS 查詢，PowerShell 日誌則顯示 18 次。PowerShell 日誌同時確認了反向 Shell 連線成功、揭示攻擊者第二個工作階段的來源，並保留了重建外洩壓縮檔所需的片段順序。
+
+<br/>
+
+Clean Reputation Does Not Mean Benign (信譽良好不代表無害)
+
+Every network indicator returned CLEAN in TryDetectThis, yet each was tied to confirmed malicious behaviour. In contrast to the previous project, where observed telemetry revealed a malicious IP behind a clean one, here the attacker relied on legitimate services such as GitHub and ngrok to avoid reputation-based detection.
+
+所有網路指標在 TryDetectThis 中都是 CLEAN，但每一個都對應到已確認的惡意行為。與前一個專題中由實際遙測發現 CLEAN IP 背後的惡意 IP 不同，這次攻擊者利用 GitHub、ngrok 等合法服務來規避以信譽為基礎的偵測。
+
+<br/>
+
+Data Quality Can Hide Evidence (資料品質可能隱藏證據)
+
+The same parent PID appeared as both "3728" and "3,728", and an exact-match query silently missed the Robocopy event. Identical timestamps also prevented ordering events from Sysmon alone. Validating results against the alerts helped expose both issues.
+
+同一個父程序 PID 同時以「3728」與「3,728」兩種格式出現，精確比對的查詢因此遺漏了 Robocopy 事件，且沒有任何錯誤提示。相同的時間戳記也使事件無法僅憑 Sysmon 排序。將查詢結果與警報內容交叉比對，才發現了這兩個問題。
+
+<br/>
+
+Evidence Boundaries (證據邊界)
+
+No firewall, DNS, or file server logs were available, and the attacker's PowerShell sessions had no process creation events. Conclusions about these points were based on timing and PowerShell logs and are stated as inferences rather than confirmed facts.
+
+本次沒有防火牆、DNS 或檔案伺服器日誌，攻擊者的 PowerShell 工作階段也沒有程序建立事件。關於這些部分的結論，是依據時間關係與 PowerShell 日誌推論而來，並以推論而非確認事實的方式呈現。
+
+<br/>
+<br/>
+
+
+---------
+
+<h2>Reference｜參考</h2>
+
+[TryHackMe] [SOC Simulator](https://tryhackme.com/soc-sim)<br/>
+[MITRE] [MITRE ATT&CK](https://attack.mitre.org/)<br/>
+[Microsoft] [Sysmon](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)<br/>
+[GitHub] [powercat](https://github.com/besimorhino/powercat)<br/>
+[GitHub] [PowerSploit (PowerView)](https://github.com/PowerShellMafia/PowerSploit)<br/>
+[Proofpoint] [Threat Response Auto-Pull and CLEAR](https://www.proofpoint.com/au/products/email-protection/threat-response-auto-pull)<br/>
+[Previous Project] [SOC101 - SOC Alert Triage & Phishing Investigation Using Elastic SIEM](https://github.com/AlmostNeverDone/SOC101)<br/>
+<br/>
