@@ -455,11 +455,11 @@ No firewall, DNS, or file server logs were available, and the attacker's PowerSh
 
 <h2>Reference｜參考</h2>
 
-[TryHackMe] [SOC Simulator](https://tryhackme.com/soc-sim)<br/>
-[MITRE] [MITRE ATT&CK](https://attack.mitre.org/)<br/>
-[Microsoft] [Sysmon](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)<br/>
-[GitHub] [powercat](https://github.com/besimorhino/powercat)<br/>
-[GitHub] [PowerSploit (PowerView)](https://github.com/PowerShellMafia/PowerSploit)<br/>
-[Proofpoint] [Threat Response Auto-Pull and CLEAR](https://www.proofpoint.com/au/products/email-protection/threat-response-auto-pull)<br/>
-[Previous Project] [SOC101 - SOC Alert Triage & Phishing Investigation Using Elastic SIEM](https://github.com/AlmostNeverDone/SOC101)<br/>
+- <b>[TryHackMe] [SOC Simulator](https://tryhackme.com/soc-sim)<br/>
+- <b>[MITRE] [MITRE ATT&CK](https://attack.mitre.org/)<br/>
+- <b>[Microsoft] [Sysmon](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)<br/>
+- <b>[GitHub] [powercat](https://github.com/besimorhino/powercat)<br/>
+- <b>[GitHub] [PowerSploit (PowerView)](https://github.com/PowerShellMafia/PowerSploit)<br/>
+- <b>[Proofpoint] [Threat Response Auto-Pull and CLEAR](https://www.proofpoint.com/au/products/email-protection/threat-response-auto-pull)<br/>
+- <b>[Previous Project] [SOC101 - SOC Alert Triage & Phishing Investigation Using Elastic SIEM](https://github.com/AlmostNeverDone/SOC101)<br/>
 <br/>
