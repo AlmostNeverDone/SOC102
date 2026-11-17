@@ -340,19 +340,19 @@ From 36 alerts, 16 were linked to the CEO's workstation and grouped into four ca
 
 | Time | Tactic (MITRE ATT&CK) | Technique (MITRE ATT&CK) | Activity |
 | --- | --- | --- | --- |
-| 11:16:33 | Initial Access | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Phishing email delivered to the CEO<br/>釣魚郵件送達 CEO |
-| 11:36:40 | Execution | [T1204.002](https://attack.mitre.org/techniques/T1204/002/), [T1036.007](https://attack.mitre.org/techniques/T1036/007/) | Attachment opened in Outlook<br/>於 Outlook 開啟附件 |
-| 11:36:52 | Execution | [T1059.001](https://attack.mitre.org/techniques/T1059/001/), [T1105](https://attack.mitre.org/techniques/T1105/) | LNK launched PowerShell and powercat reverse shell<br/>LNK 啟動 PowerShell 與 powercat 反向 Shell |
-| 11:36:55 | Command and Control | [T1572](https://attack.mitre.org/techniques/T1572/) | Reverse shell connected to 2.tcp.ngrok.io:19282<br/>反向 Shell 連線至 2.tcp.ngrok.io:19282 |
-| 11:37:08 | Discovery | [T1082](https://attack.mitre.org/techniques/T1082/), [T1033](https://attack.mitre.org/techniques/T1033/), [T1087.001](https://attack.mitre.org/techniques/T1087/001/), [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Host discovery commands (PID 9060)<br/>主機偵察指令 (PID 9060) |
-| 11:38:03 | Command and Control | [T1105](https://attack.mitre.org/techniques/T1105/) | PowerView.ps1 dropped<br/>放置 PowerView.ps1 |
-| 11:38:16 | Execution | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | ExecutionPolicy Bypass session started (PID 3728)<br/>啟動繞過執行原則的工作階段 (PID 3728) |
-| 11:38:52 | Discovery | [T1018](https://attack.mitre.org/techniques/T1018/) | LDAP domain computer enumeration<br/>LDAP 網域電腦列舉 |
-| 11:39:58 | Collection | [T1039](https://attack.mitre.org/techniques/T1039/) | FILESRV-01 financial records share mapped<br/>掛載 FILESRV-01 財務紀錄共用資料夾 |
-| 11:40:45 | Collection | [T1074.001](https://attack.mitre.org/techniques/T1074/001/) | Files copied to the staging folder<br/>檔案複製至暫存資料夾 |
-| 11:40:56 | Defense Evasion | [T1070.005](https://attack.mitre.org/techniques/T1070/005/) | Share connection removed<br/>移除共用資料夾連線 |
-| 11:41:14 | Collection | [T1560](https://attack.mitre.org/techniques/T1560/) | exfilt8me.zip created<br/>建立 exfilt8me.zip |
-| 11:41:43 | Exfiltration | [T1048.003](https://attack.mitre.org/techniques/T1048/003/), [T1132.001](https://attack.mitre.org/techniques/T1132/001/), [T1030](https://attack.mitre.org/techniques/T1030/) | DNS exfiltration to haz4rdw4re.io<br/>透過 DNS 外洩至 haz4rdw4re.io |
+| 11:16:33 | Initial Access | Phishing: Spearphishing Attachment<br/>網路釣魚：魚叉式釣魚附件 [[T1566.001](https://attack.mitre.org/techniques/T1566/001/)] | Phishing email delivered to the CEO<br/>釣魚郵件送達 CEO |
+| 11:36:40 | Execution | User Execution: Malicious File<br/>使用者執行：惡意檔案 [[T1204.002](https://attack.mitre.org/techniques/T1204/002/)]<br/>Masquerading: Double File Extension<br/>偽裝：雙重副檔名 [[T1036.007](https://attack.mitre.org/techniques/T1036/007/)] | Attachment opened in Outlook<br/>於 Outlook 開啟附件 |
+| 11:36:52 | Execution | Command and Scripting Interpreter: PowerShell<br/>命令與腳本直譯器：PowerShell [[T1059.001](https://attack.mitre.org/techniques/T1059/001/)]<br/>Ingress Tool Transfer<br/>輸入工具傳輸 [[T1105](https://attack.mitre.org/techniques/T1105/)] | LNK launched PowerShell and powercat reverse shell<br/>LNK 啟動 PowerShell 與 powercat 反向 Shell |
+| 11:36:55 | Command and Control | Protocol Tunneling<br/>協定通道 [[T1572](https://attack.mitre.org/techniques/T1572/)] | Reverse shell connected to 2.tcp.ngrok.io:19282<br/>反向 Shell 連線至 2.tcp.ngrok.io:19282 |
+| 11:37:08 | Discovery | System Information Discovery<br/>系統資訊探索 [[T1082](https://attack.mitre.org/techniques/T1082/)]<br/>System Owner/User Discovery<br/>系統擁有者/使用者探索 [[T1033](https://attack.mitre.org/techniques/T1033/)]<br/>Account Discovery: Local Account<br/>帳號探索：本機帳號 [[T1087.001](https://attack.mitre.org/techniques/T1087/001/)]<br/>Permission Groups Discovery: Local Groups<br/>權限群組探索：本機群組 [[T1069.001](https://attack.mitre.org/techniques/T1069/001/)] | Host discovery commands (PID 9060)<br/>主機偵察指令 (PID 9060) |
+| 11:38:03 | Command and Control | Ingress Tool Transfer<br/>輸入工具傳輸 [[T1105](https://attack.mitre.org/techniques/T1105/)] | PowerView.ps1 dropped<br/>放置 PowerView.ps1 |
+| 11:38:16 | Execution | Command and Scripting Interpreter: PowerShell<br/>命令與腳本直譯器：PowerShell [[T1059.001](https://attack.mitre.org/techniques/T1059/001/)] | ExecutionPolicy Bypass session started (PID 3728)<br/>啟動繞過執行原則的工作階段 (PID 3728) |
+| 11:38:52 | Discovery | Remote System Discovery<br/>遠端系統探索 [[T1018](https://attack.mitre.org/techniques/T1018/)] | LDAP domain computer enumeration<br/>LDAP 網域電腦列舉 |
+| 11:39:58 | Collection | Data from Network Shared Drive<br/>從網路共用磁碟收集資料 [[T1039](https://attack.mitre.org/techniques/T1039/)] | FILESRV-01 financial records share mapped<br/>掛載 FILESRV-01 財務紀錄共用資料夾 |
+| 11:40:45 | Collection | Data Staged: Local Data Staging<br/>資料暫存：本機資料暫存 [[T1074.001](https://attack.mitre.org/techniques/T1074/001/)] | Files copied to the staging folder<br/>檔案複製至暫存資料夾 |
+| 11:40:56 | Defense Evasion | Indicator Removal: Network Share Connection Removal<br/>移除指標：移除網路共用連線 [[T1070.005](https://attack.mitre.org/techniques/T1070/005/)] | Share connection removed<br/>移除共用資料夾連線 |
+| 11:41:14 | Collection | Archive Collected Data<br/>封存收集的資料 [[T1560](https://attack.mitre.org/techniques/T1560/)] | exfilt8me.zip created<br/>建立 exfilt8me.zip |
+| 11:41:43 | Exfiltration | Exfiltration Over Alternative Protocol: Exfiltration Over Unencrypted Non-C2 Protocol<br/>透過替代協定外洩：透過未加密的非 C2 協定外洩 [[T1048.003](https://attack.mitre.org/techniques/T1048/003/)]<br/>Data Encoding: Standard Encoding<br/>資料編碼：標準編碼 [[T1132.001](https://attack.mitre.org/techniques/T1132/001/)]<br/>Data Transfer Size Limits<br/>資料傳輸大小限制 [[T1030](https://attack.mitre.org/techniques/T1030/)] | DNS exfiltration to haz4rdw4re.io<br/>透過 DNS 外洩至 haz4rdw4re.io |
 | 11:42:08 | - | - | PowerShell process terminated via Stop-Process<br/>以 Stop-Process 終止 PowerShell 程序 |
 
 <br/>
@@ -396,9 +396,9 @@ In my previous role, I learned that many banks send statements and invoices as c
 
 Post-Delivery Remediation and Users as a Line of Defence (投遞後清除與使用者防線)
 
-The phishing email reached the mailbox without quarantine, and Alert 1005 was raised about 20 minutes before the attachment was opened. Proofpoint CLEAR (Closed-Loop Email Analysis and Response) connects user reporting of suspicious emails through PhishAlarm, automated analysis, and the retraction of matching emails that have already been delivered. Although this was a whaling attack against a single recipient, the same email is often sent to many employees. In that case, a single report from any recipient can remove the email from every mailbox, turning users from a human risk into a line of defence. I had practised deploying CLEAR once in a non-production environment but did not fully understand its value at the time, and this scenario showed it clearly.
+The phishing email reached the mailbox without being quarantined, and Alert 1005 was raised about 20 minutes before the attachment was opened. This reminded me of a time I had practised deploying Proofpoint CLEAR (Closed-Loop Email Analysis and Response) in a non-production environment. CLEAR allows employees to report suspicious emails through PhishAlarm, and once Proofpoint analyses and confirms the threat, it automatically retracts the phishing email. I did not fully understand its value at the time, but this scenario made it clear. If this had not been a whaling attack against a single recipient, but a phishing email sent to many employees, a report from any one recipient could have removed the threat from every mailbox, potentially stopping it before it was ever executed and turning users from a human risk into part of the defence.
 
-釣魚郵件未經隔離即送達信箱，而 Alert 1005 比附件被開啟早了約 20 分鐘。Proofpoint CLEAR (Closed-Loop Email Analysis and Response，閉環式郵件分析與應變) 結合使用者透過 PhishAlarm 回報可疑郵件、自動化分析，以及撤回已送達的相同郵件。雖然本次是針對單一收件者的捕鯨式攻擊，但同一封釣魚郵件經常會寄給多名員工。在這種情況下，只要任一收件者回報，就能將該郵件從所有信箱中移除，讓使用者從人為風險轉變為防線的一部分。我曾在非正式環境中練習部署過一次 CLEAR，但當時並未完全理解其價值，這次情境讓我清楚看見它的意義。
+釣魚郵件未經隔離即送達信箱，而 Alert 1005 比附件被開啟早了約 20 分鐘。這讓我想起過去曾在非正式環境中練習部署 Proofpoint CLEAR (Closed-Loop Email Analysis and Response，閉環式郵件分析與應變)。這套解決方案讓企業員工能透過 PhishAlarm 回報可疑郵件，經 Proofpoint 分析確認為威脅後，自動撤回該釣魚郵件。當時我尚未完全理解其價值，而這次情境讓我清楚看見它的意義。如果這次不是針對單一收件者的捕鯨式攻擊，而是將釣魚郵件寄給多名員工，那麼只要任一收件者回報，就能將該威脅從所有信箱中移除，甚至可能在被執行之前就完全阻止，讓使用者從人為風險轉變為防線的一部分。
 
 <br/>
 
