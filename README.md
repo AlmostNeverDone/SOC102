@@ -338,21 +338,21 @@ From 36 alerts, 16 were linked to the CEO's workstation and grouped into four ca
 
 <b>Attack Timeline (攻擊時間軸, 2026-11-12 UTC)</b>
 
-| Time | Tactic | Technique | Activity |
+| Time | Tactic (MITRE ATT&CK) | Technique (MITRE ATT&CK) | Activity |
 | --- | --- | --- | --- |
-| 11:16:33 | Initial Access | T1566.001 | Phishing email delivered to the CEO<br/>釣魚郵件送達 CEO |
-| 11:36:40 | Execution | T1204.002, T1036.007 | Attachment opened in Outlook<br/>於 Outlook 開啟附件 |
-| 11:36:52 | Execution | T1059.001, T1105 | LNK launched PowerShell and powercat reverse shell<br/>LNK 啟動 PowerShell 與 powercat 反向 Shell |
-| 11:36:55 | Command and Control | T1572 | Reverse shell connected to 2.tcp.ngrok.io:19282<br/>反向 Shell 連線至 2.tcp.ngrok.io:19282 |
-| 11:37:08 | Discovery | T1082, T1033, T1087.001, T1069.001 | Host discovery commands (PID 9060)<br/>主機偵察指令 (PID 9060) |
-| 11:38:03 | Command and Control | T1105 | PowerView.ps1 dropped<br/>放置 PowerView.ps1 |
-| 11:38:16 | Execution | T1059.001 | ExecutionPolicy Bypass session started (PID 3728)<br/>啟動繞過執行原則的工作階段 (PID 3728) |
-| 11:38:52 | Discovery | T1018 | LDAP domain computer enumeration<br/>LDAP 網域電腦列舉 |
-| 11:39:58 | Collection | T1039 | FILESRV-01 financial records share mapped<br/>掛載 FILESRV-01 財務紀錄共用資料夾 |
-| 11:40:45 | Collection | T1074.001 | Files copied to the staging folder<br/>檔案複製至暫存資料夾 |
-| 11:40:56 | Defense Evasion | T1070.005 | Share connection removed<br/>移除共用資料夾連線 |
-| 11:41:14 | Collection | T1560 | exfilt8me.zip created<br/>建立 exfilt8me.zip |
-| 11:41:43 | Exfiltration | T1048.003, T1132.001, T1030 | DNS exfiltration to haz4rdw4re.io<br/>透過 DNS 外洩至 haz4rdw4re.io |
+| 11:16:33 | Initial Access | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Phishing email delivered to the CEO<br/>釣魚郵件送達 CEO |
+| 11:36:40 | Execution | [T1204.002](https://attack.mitre.org/techniques/T1204/002/), [T1036.007](https://attack.mitre.org/techniques/T1036/007/) | Attachment opened in Outlook<br/>於 Outlook 開啟附件 |
+| 11:36:52 | Execution | [T1059.001](https://attack.mitre.org/techniques/T1059/001/), [T1105](https://attack.mitre.org/techniques/T1105/) | LNK launched PowerShell and powercat reverse shell<br/>LNK 啟動 PowerShell 與 powercat 反向 Shell |
+| 11:36:55 | Command and Control | [T1572](https://attack.mitre.org/techniques/T1572/) | Reverse shell connected to 2.tcp.ngrok.io:19282<br/>反向 Shell 連線至 2.tcp.ngrok.io:19282 |
+| 11:37:08 | Discovery | [T1082](https://attack.mitre.org/techniques/T1082/), [T1033](https://attack.mitre.org/techniques/T1033/), [T1087.001](https://attack.mitre.org/techniques/T1087/001/), [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Host discovery commands (PID 9060)<br/>主機偵察指令 (PID 9060) |
+| 11:38:03 | Command and Control | [T1105](https://attack.mitre.org/techniques/T1105/) | PowerView.ps1 dropped<br/>放置 PowerView.ps1 |
+| 11:38:16 | Execution | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | ExecutionPolicy Bypass session started (PID 3728)<br/>啟動繞過執行原則的工作階段 (PID 3728) |
+| 11:38:52 | Discovery | [T1018](https://attack.mitre.org/techniques/T1018/) | LDAP domain computer enumeration<br/>LDAP 網域電腦列舉 |
+| 11:39:58 | Collection | [T1039](https://attack.mitre.org/techniques/T1039/) | FILESRV-01 financial records share mapped<br/>掛載 FILESRV-01 財務紀錄共用資料夾 |
+| 11:40:45 | Collection | [T1074.001](https://attack.mitre.org/techniques/T1074/001/) | Files copied to the staging folder<br/>檔案複製至暫存資料夾 |
+| 11:40:56 | Defense Evasion | [T1070.005](https://attack.mitre.org/techniques/T1070/005/) | Share connection removed<br/>移除共用資料夾連線 |
+| 11:41:14 | Collection | [T1560](https://attack.mitre.org/techniques/T1560/) | exfilt8me.zip created<br/>建立 exfilt8me.zip |
+| 11:41:43 | Exfiltration | [T1048.003](https://attack.mitre.org/techniques/T1048/003/), [T1132.001](https://attack.mitre.org/techniques/T1132/001/), [T1030](https://attack.mitre.org/techniques/T1030/) | DNS exfiltration to haz4rdw4re.io<br/>透過 DNS 外洩至 haz4rdw4re.io |
 | 11:42:08 | - | - | PowerShell process terminated via Stop-Process<br/>以 Stop-Process 終止 PowerShell 程序 |
 
 <br/>
