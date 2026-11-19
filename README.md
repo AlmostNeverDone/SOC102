@@ -378,7 +378,7 @@ A complete attack chain can unfold within minutes behind a queue of low-severity
 
 <br/>
 
-Alert Severity Should Reflect Context (警報嚴重度應反映情境)
+[Alert Severity Should Reflect Context (警報嚴重度應反映情境)]
 
 Alert 1005 was rated Low, the same as the spam alerts around it, even though it was the only external email with an attachment and was sent to the CEO. Raising severity for attachments sent to executives would have moved it to the top of the queue.
 
@@ -386,7 +386,7 @@ Alert 1005 與周圍的垃圾郵件警報同樣被評為 Low，但它是唯一�
 
 <br/>
 
-Legitimate Business Practices Can Aid Phishing (正常業務習慣可能助長釣魚)
+[Legitimate Business Practices Can Aid Phishing (正常業務習慣可能助長釣魚)]
 
 In my previous role, I learned that many banks send statements and invoices as compressed attachments, often protected with a password. This habit makes invoice-themed ZIP files like the one in this scenario look routine to recipients. Some email security tools can open protected archives using a password found in the message body, but passwords agreed in advance, such as those based on personal information, are not included in the email, leaving the contents uninspected. Flagging or quarantining password-protected archives from external senders, and encouraging secure portals for sensitive documents, can reduce this risk.
 
@@ -394,7 +394,7 @@ In my previous role, I learned that many banks send statements and invoices as c
 
 <br/>
 
-Post-Delivery Remediation and Users as a Line of Defence (投遞後清除與使用者防線)
+[Post-Delivery Remediation and Users as a Line of Defence (投遞後清除與使用者防線)]
 
 The phishing email reached the mailbox without being quarantined, and Alert 1005 was raised about 20 minutes before the attachment was opened. This reminded me of a time I had practised deploying Proofpoint CLEAR (Closed-Loop Email Analysis and Response) in a non-production environment. CLEAR allows employees to report suspicious emails through PhishAlarm, and once Proofpoint analyses and confirms the threat, it automatically retracts the phishing email. I did not fully understand its value at the time, but this scenario made it clear. If this had not been a whaling attack against a single recipient, but a phishing email sent to many employees, a report from any one recipient could have removed the threat from every mailbox, potentially stopping it before it was ever executed and turning users from a human risk into part of the defence.
 
@@ -402,7 +402,7 @@ The phishing email reached the mailbox without being quarantined, and Alert 1005
 
 <br/>
 
-A Single Data Source Underestimates the Impact (單一資料來源會低估影響範圍)
+[A Single Data Source Underestimates the Impact (單一資料來源會低估影響範圍)]
 
 Sysmon and the alerts showed 10 DNS queries, while PowerShell logs showed 18. PowerShell logs also confirmed the reverse shell connection, revealed the origin of the attacker's second session, and preserved the chunk order needed to rebuild the exfiltrated archive.
 
@@ -410,7 +410,7 @@ Sysmon 與警報顯示 10 次 DNS 查詢，PowerShell 日誌則顯示 18 次。P
 
 <br/>
 
-Clean Reputation Does Not Mean Benign (信譽良好不代表無害)
+[Clean Reputation Does Not Mean Benign (信譽良好不代表無害)]
 
 Every network indicator returned CLEAN in TryDetectThis, yet each was tied to confirmed malicious behaviour. In contrast to the previous project, where observed telemetry revealed a malicious IP behind a clean one, here the attacker relied on legitimate services such as GitHub and ngrok to avoid reputation-based detection.
 
@@ -418,7 +418,7 @@ Every network indicator returned CLEAN in TryDetectThis, yet each was tied to co
 
 <br/>
 
-Data Quality Can Hide Evidence (資料品質可能隱藏證據)
+[Data Quality Can Hide Evidence (資料品質可能隱藏證據)]
 
 The same parent PID appeared as both "3728" and "3,728", and an exact-match query silently missed the Robocopy event. Identical timestamps also prevented ordering events from Sysmon alone. Validating results against the alerts helped expose both issues.
 
@@ -426,7 +426,7 @@ The same parent PID appeared as both "3728" and "3,728", and an exact-match quer
 
 <br/>
 
-Evidence Boundaries (證據邊界)
+[Evidence Boundaries (證據邊界)]
 
 No firewall, DNS, or file server logs were available, and the attacker's PowerShell sessions had no process creation events. Conclusions about these points were based on timing and PowerShell logs and are stated as inferences rather than confirmed facts.
 
